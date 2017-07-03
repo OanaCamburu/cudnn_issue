@@ -1,0 +1,19 @@
+#!/bin/bash
+
+IMAGE_NAME=trial        # the name of the created docker image
+SETUP_DIR=docker_temp  # the path of the setup directory (on the local machine, not in the container)
+
+set -ex
+
+# create folder for setup files
+mkdir -p $SETUP_DIR
+
+# store UID/GID
+id -u > $SETUP_DIR/uid
+id -g > $SETUP_DIR/gid
+
+# create docker container
+nvidia-docker build -t $IMAGE_NAME .
+
+# clean up
+rm -r $SETUP_DIR
